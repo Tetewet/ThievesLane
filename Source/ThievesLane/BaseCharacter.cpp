@@ -44,6 +44,12 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//initialize the crosshair
+	CameraManager = UGameplayStatics::GetPlayerController(GetWorld(), 0)->PlayerCameraManager;
+	BeginCrosshair = CameraManager->GetCameraLocation();
+	EndCrosshair = CameraManager->GetCameraLocation() + CameraManager->GetCameraRotation().Vector() * CrosshairLength;
+	QueryParams.AddIgnoredActor(this);
+	QueryParams.bTraceComplex = true;
 }
 
 //Input
@@ -86,6 +92,29 @@ void ABaseCharacter::OnResetVR()
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
+void ABaseCharacter::OnCrosshair()
+{
+	//this is called per frame : crosshair shoots forward from the camera
+	BeginCrosshair = CameraManager->GetCameraLocation();
+	EndCrosshair = CameraManager->GetCameraLocation() + CameraManager->GetCameraRotation().Vector() * CrosshairLength;
+
+	if (GetWorld()->LineTraceSingleByChannel(Hit, BeginCrosshair, EndCrosshair, ECC_Visibility, QueryParams))
+	{
+		//ligne de deboguage
+		DrawDebugLine(GetWorld(), BeginCrosshair, EndCrosshair, FColor::Blue, false, 1.0f, 0, 1.0f);
+
+		if (Cast<ABaseItem>(Hit.GetActor()))
+		{
+			//if it is a base item, then we can pick it up : show HUD pickup-able info
+			DrawDebugLine(GetWorld(), BeginCrosshair, EndCrosshair, FColor::Red, false, 1.0f, 0, 1.0f);
+
+
+			//if pick up the item, add it in the inventory (+ stop showing related HUD)
+
+		}
+	}
+}
+
 void ABaseCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
@@ -121,6 +150,8 @@ void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	OnCrosshair();
+	
 }
 
 

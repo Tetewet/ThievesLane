@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine.h"
+#include "BaseItem.h"
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
@@ -10,6 +12,7 @@ class UInputComponent;
 class USkeletalMeshComponent;
 class USceneComponent;
 class UCameraComponent;
+class APlayerCameraManager;
 class UMotionControllerComponent;
 
 UCLASS(config=game)
@@ -58,6 +61,15 @@ protected:
 
 	/** Resets HMD orientation and position in VR. */
 	void OnResetVR();
+
+	/** Crosshair and pickup range */
+	void OnCrosshair();
+	APlayerCameraManager* CameraManager;
+	FVector BeginCrosshair;
+	FVector EndCrosshair;
+	FCollisionQueryParams QueryParams;
+	FHitResult Hit;
+	float CrosshairLength = 180.0f;
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

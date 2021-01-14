@@ -19,6 +19,8 @@ public:
 		float BaseValue;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemProperties")
 		float BaseWeight;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ItemProperties")
+		float EstimatedQuality;
 
 protected:
 	// Called when the game starts or when spawned
