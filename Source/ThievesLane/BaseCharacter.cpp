@@ -15,7 +15,7 @@
 ABaseCharacter::ABaseCharacter()
 {
 	//set collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(66.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 
 	//set turn rates for input
 	BaseTurnRate = 45.f;
@@ -24,7 +24,7 @@ ABaseCharacter::ABaseCharacter()
 	//create camera component
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("BaseCharacterCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
+	FirstPersonCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 64.f));
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Create VR Controllers.
@@ -49,6 +49,7 @@ void ABaseCharacter::BeginPlay()
 	BeginCrosshair = CameraManager->GetCameraLocation();
 	EndCrosshair = CameraManager->GetCameraLocation() + CameraManager->GetCameraRotation().Vector() * CrosshairLength;
 	QueryParams.AddIgnoredActor(this);
+	QueryParams.AddIgnoredComponent(GetMesh());
 	QueryParams.bTraceComplex = true;
 }
 
