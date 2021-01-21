@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine.h"
+#include "BaseTool.h"
 #include "BaseItem.h"
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
@@ -15,14 +16,14 @@ class UCameraComponent;
 class APlayerCameraManager;
 class UMotionControllerComponent;
 
-UCLASS(config=game)
+UCLASS(config = game)
 class THIEVESLANE_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
+		UCameraComponent* FirstPersonCameraComponent;
 
 	/** Motion controller (right hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -32,7 +33,7 @@ class THIEVESLANE_API ABaseCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UMotionControllerComponent* L_MotionController;
 
-	public:
+public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
@@ -40,7 +41,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
@@ -48,6 +49,10 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseLookUpRate;
+
+	/** Array for tools inventory*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<ABaseTool*> ToolsInventory;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
