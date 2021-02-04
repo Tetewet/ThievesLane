@@ -15,7 +15,7 @@
 ABaseCharacter::ABaseCharacter()
 {
 	//set collision capsule
-	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(30.f, 96.0f);
 
 	//set turn rates for input
 	BaseTurnRate = 45.f;
